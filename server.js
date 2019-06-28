@@ -1,18 +1,16 @@
 import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import exampleSchema from "./schemas/example.schema";
 import {connect} from './config/bd/database'
+import {endpointUsuario} from './app/routers/usuario.routers';
+import {endpointExample} from './app/routers/example.routers'
 
-const app = express();
+export const app = express();
+// static
+app.use(express.static(__dirname + '/public'));
+
 connect();
+endpointExample();
+endpointUsuario();
 
-app.set('/',(req,res)=>{
-    res.json({message:'Hello Alejandro'});
-});
 
-app.use('/graphql',graphqlHTTP({
-    graphiql:true,
-    schema:exampleSchema
-}))
 
 app.listen(3000,()=> console.log('Server on port 3000'));
